@@ -11,10 +11,17 @@
 |
 */
 
+use Illuminate\Support\Facades\Artisan;
+
 uses(
     Tests\TestCase::class,
     // Illuminate\Foundation\Testing\RefreshDatabase::class,
-)->in('Feature');
+)->beforeAll(function () {
+    $app = require_once __DIR__.'../../bootstrap/app.php';
+    $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+    $kernel->bootstrap();
+    Artisan::call('migrate:fresh');
+})->in('Feature');
 
 /*
 |--------------------------------------------------------------------------
